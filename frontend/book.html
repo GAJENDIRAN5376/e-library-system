@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Book Details</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>📖 Book Details</h2>
+  <div id="book-details"></div>
+
+  <button id="borrow-btn">📥 Borrow Book</button>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const bookId = params.get("id");
+    const token = localStorage.getItem("token");
+
+    async function getBookDetails() {
+      const res = await fetch(http://127.0.0.1:8000/api/books/${bookId}/, {
+        headers: { Authorization: Bearer ${token} },
+      });
+      const book = await res.json();
+      document.getElementById("book-details").innerHTML =
+        <h3>${book.title}</h3><p>Author: ${book.author}</p><p>Available: ${book.is_available}</p>;
+    }
+
+    document.getElementById("borrow-btn").addEventListener("click", async () => {
+ const res = await fetch("http://127.0.0.1:8000/api/borrow/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: Bearer ${token},
+        },
+        body: JSON.stringify({ book_id: bookId }),
+      });
+      const result = await res.json();
+      alert(result.status || result.error);
+    });
+
+    getBookDetails();
+  </script>
+</body>
+</html>
