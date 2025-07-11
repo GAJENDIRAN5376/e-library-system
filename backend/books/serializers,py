@@ -1,0 +1,12 @@
+from rest_framework import serializers
+from .models import Book, BorrowRecord
+
+class BookSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Book
+        fields = '_all_'
+
+class BorrowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BorrowRecord
+        fields = '_all_'
