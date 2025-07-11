@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>E-Library | My Profile</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h2>🧑 Borrowing History</h2>
+  <ul id="history-list"></ul>
+
+  <script>
+    const token = localStorage.getItem("token");
+
+    async function loadHistory() {
+      const res = await fetch("http://127.0.0.1:8000/api/profile/", {
+        headers: { Authorization: Bearer ${token} },
+      });
+      const data = await res.json();
+
+      const list = document.getElementById("history-list");
+      data.forEach((record) => {
+        const li = document.createElement("li");
+        li.textContent = ${record.book.title} - Borrowed on ${record.borrowed_at}, Returned: ${record.returned_at || "Not yet"};
+        list.appendChild(li);
+      });
+    }
+
+    loadHistory();
+  </script>
+</body>
+</html>
